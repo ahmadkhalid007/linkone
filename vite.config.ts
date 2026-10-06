@@ -8,6 +8,9 @@ function figmaAssetResolver() {
   return {
     name: 'figma-asset-resolver',
     resolveId(id) {
+      const unversioned = id.replace(/@\d+\.\d+\.\d+$/, '')
+      if (unversioned !== id) return this.resolve(unversioned)
+
       if (id.startsWith('figma:asset/')) {
         const filename = id.replace('figma:asset/', '')
         return path.resolve(__dirname, 'src/assets', filename)
